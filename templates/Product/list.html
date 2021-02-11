@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+    <div class="row d-flex justify-content-center">
+
+        {% if request.path == '/' %} <h1>Les produits récents</h1>
+        {% elif request.path == '/like/' %} <h1>Produits les plus Likés</h1>
+        {% elif request.path == '/croissant/' %} <h1>Produits par prix croissant</h1>
+        {% elif request.path == '/decroissant/' %} <h1>Produits par prix décroissant</h1>
+        {% endif %}
+
+        {% for object in object_list %}
+            {% for r_i_u in object.ingredients.all %}
+                {{ r_i_u }}
+            {% endfor %}
+
+            <div class="card m-3 p-0 col-auto" style="width: 18rem;">
+            <div style="background-image: url('../media/{{ object.images.first.file }}');
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                    height: 15rem;
+                    width: 100%"></div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ object.name }}</h5>
+                    <p class="card-text">{{ object.shortDesc | truncatechars:100 }}</p>
+                    <div class="d-flex flex-row flex-wrap mb-3">
+                        {% for tag in object.tags.all %}
+                            <p class="bg-dark rounded me-1 mb-1 p-1 text-white" style="font-size: 0.75rem">{{ tag }}</p>
+                        {% endfor %}
+                    </div>
+                    <a href="{% url 'productDetail' object.id %}" class="btn btn-primary">Voir le produit</a>
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+
+    <div class="pagination d-flex justify-content-center">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a class="btn btn-primary" href="?page=1">&laquo; first</a>
+                <a class="btn btn-primary" href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a class="btn btn-primary" href="?page={{ page_obj.next_page_number }}">next</a>
+                <a class="btn btn-primary" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+{% endblock %}
