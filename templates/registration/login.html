@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <h2>Log In</h2>
+    <form method="post" class="justify-content-center align-items-center">
+        {% csrf_token %}
+        <div class="input-group mb-3">
+            <span class="input-group-text">Username</span>
+            <input type="text" class="form-control" placeholder="Username" aria-label="Username"
+                   name="username" autofocus autocapitalize="none"
+                   autocomplete="username" maxlength="150" required
+                   id="id_username">
+        </div>
+        <div class="input-group mb-3">
+            <span class="input-group-text">Password</span>
+            <input type="password" class="form-control" placeholder="Username" aria-label="Password"
+                   name="password" autocapitalize="none"
+                   autocomplete="current-password" required
+                   id="id_password">
+        </div>
+
+        <button type="submit">Log In</button>
+    </form>
+{% endblock %}
+
+

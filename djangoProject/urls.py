@@ -18,16 +18,18 @@ from django.conf import settings
 from django.urls import path, include
 from django.conf.urls.static import static
 
-from app.views import IndexView, ProductView, LikeView, CroissantView, DecroissantView
+from app.views import IndexView, ProductView, LikeView, CroissantView, DecroissantView, GamingView
 
 urlpatterns = [
     path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
     path('jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     path('admin/', admin.site.urls),
+    path('accounts/', include('django.contrib.auth.urls')),
     path('', IndexView.as_view(), name='index'),
     path('like/', LikeView.as_view(), name='like'),
     path('croissant/', CroissantView.as_view(), name='croissant'),
     path('decroissant/', DecroissantView.as_view(), name='decroissant'),
+    path('gaming/', GamingView.as_view(), name='gaming'),
     path('products/<int:pk>', ProductView.as_view(), name='productDetail'),
 ]
 

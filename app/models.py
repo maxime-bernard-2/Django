@@ -1,4 +1,12 @@
+from django.contrib.auth.models import User
 from django.db import models
+
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user}"
 
 
 class Tag(models.Model):
@@ -29,7 +37,8 @@ class Video(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=200, null=True, blank=False)
     price = models.IntegerField(null=True, blank=False)
-    like = models.IntegerField(null=True, blank=False)
+    like = models.ManyToManyField(Like, related_name='productLike',
+                                  through='ProductLike')
     shortDesc = models.TextField(null=True, blank=False)
     desc = models.TextField(null=True, blank=False)
     images = models.ManyToManyField(Image, related_name='productImage',
@@ -41,6 +50,11 @@ class Product(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.shortDesc}, {self.price})"
+
+
+class ProductLike(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    like = models.ForeignKey(Like, on_delete=models.CASCADE)
 
 
 class ProductTag(models.Model):
