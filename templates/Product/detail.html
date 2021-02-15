@@ -40,26 +40,27 @@
             </div>
             <p>{{ object.shortDesc }}</p>
             <p>{{ object.price }} $</p>
-            <div class="d-flex mt-4">
-                <p class="btn btn-primary">Ajouter au panier</p>
+            <div class="d-flex mt-4 align-items-center">
+                <p class="btn btn-primary m-0">Ajouter au panier</p>
                 {% if user.is_authenticated %}
                     <form action="{% url 'product_like' object.id %}" method="POST">
                         {% csrf_token %}
 
                         {% if post_is_liked %}
-                            <button type="submit" name="product_id" value="{{ object.id }}" class="btn btn-info">
-                                Unlike
+                            <button type="submit" name="product_id" value="{{ object.id }}" class="border-0 bg-white ms-3">
+                                <i class="bi bi-heart-fill"></i>
                             </button>
                         {% else %}
-                            <button type="submit" name="product_id" value="{{ object.id }}" class="btn btn-info">Like
+                            <button type="submit" name="product_id" value="{{ object.id }}" class="border-0 bg-white ms-3">
+                                <i class="bi bi-heart"></i>
                             </button>
                         {% endif %}
                     </form>
                 {% else %}
-                    <a class="btn btn-outline-info" href="{% url 'login' %}?next={{ request.path }}">Log in to like this
-                        article!</a><br>
+                    <a class="btn btn-outline-info mx-2" href="{% url 'login' %}?next={{ request.path }}">
+                        Connecte toi pour like !</a><br>
                 {% endif %}
-                <strong class="text-secondary">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
+                <strong>{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
 
             </div>
         </div>

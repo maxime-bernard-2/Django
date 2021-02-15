@@ -19,7 +19,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 
 from app import views
-from app.views import IndexView, ProductView, LikeView, CroissantView, DecroissantView, GamingView
+from app.views import IndexView, ProductView, LikeView, CroissantView, DecroissantView
 
 urlpatterns = [
     path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
@@ -30,7 +30,6 @@ urlpatterns = [
     path('like/', LikeView.as_view(), name='like'),
     path('croissant/', CroissantView.as_view(), name='croissant'),
     path('decroissant/', DecroissantView.as_view(), name='decroissant'),
-    path('gaming/', GamingView.as_view(), name='gaming'),
     path('products/<int:pk>', ProductView.as_view(), name='productDetail'),
     path('product-like/<int:pk>', views.ProductLike, name="product_like"),
 ]

@@ -19,13 +19,6 @@ class IndexView(ListView):
 class ProductView(DetailView):
     template_name = "product/detail.html"
     model = Product
-    pk = Product.pk
-
-
-class BlogPostDetailView(DetailView):
-    model = Product
-    # template_name = MainApp/BlogPost_detail.html
-    # context_object_name = 'object'
 
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
@@ -42,8 +35,10 @@ class BlogPostDetailView(DetailView):
 def ProductLike(request, pk):
     post = get_object_or_404(Product, id=request.POST.get('product_id'))
     if post.like.filter(id=request.user.id).exists():
+        print('remove')
         post.like.remove(request.user)
     else:
+        print('add')
         post.like.add(request.user)
 
     return HttpResponseRedirect(reverse('productDetail', args=[str(pk)]))
@@ -71,12 +66,3 @@ class DecroissantView(ListView):
 
     def get_queryset(self):
         return Product.objects.all().order_by('-price')
-
-
-class GamingView(ListView):
-    template_name = "Product/list.html"
-    paginate_by = itemPerPages
-    tag = Tag.objects.create(name='Gaming')
-
-    def get_queryset(self):
-        return Product.objects.all().filter('tags__id__in=[1]').values_list('id', flat=True)
