@@ -48,14 +48,17 @@
         <div class="d-flex flex-row justify-content-sm-between align-items-center" style="width: 15rem">
             {% if user.is_authenticated %}
                 <p class="w-100 m-0">Hi {{ user.username }}!</p>
-                <button type="button" class="btn btn-primary"><a class="w-100 m-0 text-center text-white"
-                                                                 style="text-decoration: none"
-                                                                 href="{% url 'logout' %}">Log Out</a></button>
+                <a class="w-100 m-0 text-center text-white"
+                   style="text-decoration: none"
+                   href="{% url 'logout' %}"><button type="button" class="btn btn-primary">Log Out</button>
+                </a>
             {% else %}
                 <p class="w-100 m-0 text-center">You are not logged in</p>
-                <button type="button" class="btn btn-primary"><a class="w-100 m-0 text-center text-white"
-                                                                 style="text-decoration: none"
-                                                                 href="{% url 'login' %}">Log In</a></button>
+                <a class="w-100 m-0 text-center text-white"
+                   style="text-decoration: none"
+                   href="{% url 'login' %}">
+                    <button type="button" class="btn btn-primary">Log In</button>
+                </a>
 
             {% endif %}
         </div>

@@ -3,29 +3,32 @@
 {% block body %}
 
     <div class="d-flex flex-row flex-wrap align-items-center justify-content-center">
-        <div id="carouselExampleControls" class="carousel slide mx-5 mb-2" data-bs-interval="0" data-bs-ride="carousel"  style="height: 20rem; width: 30rem">
-          <div class="carousel-inner d-flex">
-            {% for image in object.images.all %}
-                <div style="height: 20rem; width: 30rem" class="carousel-item {% if forloop.first %} active {% endif %}">
-                  <img style="object-fit: contain;max-height: 100%" src="../../media/{{ image.file }}" class="d-block w-100" alt="...">
-                </div>
-            {% endfor %}
-            {% for video in object.videos.all %}
-                <div style="height: 20rem; width: 30rem" class="carousel-item">
-                  <video style="height: 20rem; width: 30rem" class="d-block w-100" autoplay muted controls loop>
-                      <source src="../../media/{{ video }}">
-                  </video>
-                </div>
-            {% endfor %}
-          </div>
-          <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon bg-dark rounded" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </a>
-          <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
-            <span class="carousel-control-next-icon bg-dark rounded" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </a>
+        <div id="carouselExampleControls" class="carousel slide mx-5 mb-2" data-bs-interval="0" data-bs-ride="carousel"
+             style="height: 20rem; width: 30rem">
+            <div class="carousel-inner d-flex">
+                {% for image in object.images.all %}
+                    <div style="height: 20rem; width: 30rem"
+                         class="carousel-item {% if forloop.first %} active {% endif %}">
+                        <img style="object-fit: contain;max-height: 100%" src="../../media/{{ image.file }}"
+                             class="d-block w-100" alt="...">
+                    </div>
+                {% endfor %}
+                {% for video in object.videos.all %}
+                    <div style="height: 20rem; width: 30rem" class="carousel-item">
+                        <video style="height: 20rem; width: 30rem" class="d-block w-100" autoplay muted controls loop>
+                            <source src="../../media/{{ video }}">
+                        </video>
+                    </div>
+                {% endfor %}
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon bg-dark rounded" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-bs-slide="next">
+                <span class="carousel-control-next-icon bg-dark rounded" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </a>
         </div>
 
         <div class="mt-2" style="max-width: 30rem">
@@ -39,7 +42,25 @@
             <p>{{ object.price }} $</p>
             <div class="d-flex mt-4">
                 <p class="btn btn-primary">Ajouter au panier</p>
-                <p class="ms-5">{{ object.like }} <i class="bi bi-heart fs-5"></i></p>
+                {% if user.is_authenticated %}
+                    <form action="{% url 'product_like' object.id %}" method="POST">
+                        {% csrf_token %}
+
+                        {% if post_is_liked %}
+                            <button type="submit" name="product_id" value="{{ object.id }}" class="btn btn-info">
+                                Unlike
+                            </button>
+                        {% else %}
+                            <button type="submit" name="product_id" value="{{ object.id }}" class="btn btn-info">Like
+                            </button>
+                        {% endif %}
+                    </form>
+                {% else %}
+                    <a class="btn btn-outline-info" href="{% url 'login' %}?next={{ request.path }}">Log in to like this
+                        article!</a><br>
+                {% endif %}
+                <strong class="text-secondary">{{ number_of_likes }} Like{{ number_of_likes|pluralize }}</strong>
+
             </div>
         </div>
     </div>

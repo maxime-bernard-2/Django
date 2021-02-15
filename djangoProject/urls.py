@@ -18,6 +18,7 @@ from django.conf import settings
 from django.urls import path, include
 from django.conf.urls.static import static
 
+from app import views
 from app.views import IndexView, ProductView, LikeView, CroissantView, DecroissantView, GamingView
 
 urlpatterns = [
@@ -31,6 +32,7 @@ urlpatterns = [
     path('decroissant/', DecroissantView.as_view(), name='decroissant'),
     path('gaming/', GamingView.as_view(), name='gaming'),
     path('products/<int:pk>', ProductView.as_view(), name='productDetail'),
+    path('product-like/<int:pk>', views.ProductLike, name="product_like"),
 ]
 
 if settings.DEBUG:
