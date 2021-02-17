@@ -20,7 +20,7 @@ class VideoInlineAdmin(admin.TabularInline):
 
 class ProductAdmin(admin.ModelAdmin):
     inlines = (TagsInlineAdmin, ImageInlineAdmin, VideoInlineAdmin)
-    search_fields = ('name',)
+    search_fields = ("name",)
 
 
 admin.site.register(Product, ProductAdmin)

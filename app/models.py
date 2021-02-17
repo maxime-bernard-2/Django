@@ -17,7 +17,9 @@ class Image(models.Model):
 
 
 class Video(models.Model):
-    link = models.FileField(upload_to='videos/', )
+    link = models.FileField(
+        upload_to="videos/",
+    )
 
     def save(self, *args, **kwargs):
         super(Video, self).save(*args, **kwargs)
@@ -30,15 +32,16 @@ class Video(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=200, null=True, blank=False)
     price = models.IntegerField(null=True, blank=False)
-    like = models.ManyToManyField(User, related_name='productLike')
+    like = models.ManyToManyField(User, related_name="productLike")
     shortDesc = models.TextField(null=True, blank=False)
     desc = models.TextField(null=True, blank=False)
-    images = models.ManyToManyField(Image, related_name='productImage',
-                                    through='ProductImage')
-    videos = models.ManyToManyField(Video, related_name='productVideo',
-                                    through='ProductVideo')
-    tags = models.ManyToManyField(Tag, related_name='productTag',
-                                  through='ProductTag')
+    images = models.ManyToManyField(
+        Image, related_name="productImage", through="ProductImage"
+    )
+    videos = models.ManyToManyField(
+        Video, related_name="productVideo", through="ProductVideo"
+    )
+    tags = models.ManyToManyField(Tag, related_name="productTag", through="ProductTag")
 
     def __str__(self):
         return f"{self.name} ({self.shortDesc}, {self.price})"

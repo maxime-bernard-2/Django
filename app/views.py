@@ -13,7 +13,7 @@ class IndexView(ListView):
     paginate_by = itemPerPages
 
     def get_queryset(self):
-        return Product.objects.all().order_by('-id')  # order_by('tags__name')
+        return Product.objects.all().order_by("-id")  # order_by('tags__name')
 
 
 class ProductView(DetailView):
@@ -23,25 +23,24 @@ class ProductView(DetailView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
 
-        likes_connected = get_object_or_404(Product, id=self.kwargs['pk'])
+        likes_connected = get_object_or_404(Product, id=self.kwargs["pk"])
         liked = False
         if likes_connected.like.filter(id=self.request.user.id).exists():
             liked = True
-        data['number_of_likes'] = likes_connected.likeCount()
-        data['post_is_liked'] = liked
+        data["number_of_likes"] = likes_connected.likeCount()
+        data["post_is_liked"] = liked
         return data
 
 
 def ProductLike(request, pk):
-    post = get_object_or_404(Product, id=request.POST.get('product_id'))
+    post = get_object_or_404(Product, id=request.POST.get("product_id"))
     if post.like.filter(id=request.user.id).exists():
-        print('remove')
+        print("remove")
         post.like.remove(request.user)
     else:
-        print('add')
+        print("add")
         post.like.add(request.user)
-
-    return HttpResponseRedirect(reverse('productDetail', args=[str(pk)]))
+    return HttpResponseRedirect(reverse("productDetail", args=[str(pk)]))
 
 
 class LikeView(ListView):
@@ -49,7 +48,7 @@ class LikeView(ListView):
     paginate_by = itemPerPages
 
     def get_queryset(self):
-        return Product.objects.all().order_by('-like')  # order_by('tags__name')
+        return Product.objects.all().order_by("-like")  # order_by('tags__name')
 
 
 class CroissantView(ListView):
@@ -57,7 +56,7 @@ class CroissantView(ListView):
     paginate_by = itemPerPages
 
     def get_queryset(self):
-        return Product.objects.all().order_by('price')
+        return Product.objects.all().order_by("price")
 
 
 class DecroissantView(ListView):
@@ -65,4 +64,4 @@ class DecroissantView(ListView):
     paginate_by = itemPerPages
 
     def get_queryset(self):
-        return Product.objects.all().order_by('-price')
+        return Product.objects.all().order_by("-price")
